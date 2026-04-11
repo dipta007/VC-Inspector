@@ -1,0 +1,1024 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Primary Meta Tags -->
+  <meta name="title" content="VC-Inspector: Advancing Reference-free Evaluation of Video Captions with Factual Analysis">
+  <meta name="description" content="We propose VC-Inspector, a lightweight, open-source large multimodal model for reference-free evaluation of video captions with factual accuracy. Achieves state-of-the-art correlation with human judgments.">
+  <meta name="keywords" content="video captioning, caption evaluation, reference-free, factual analysis, multimodal, vision-language, LMM, deep learning">
+  <meta name="author" content="Shubhashis Roy Dipta, Tz-Ying Wu, Subarna Tripathi">
+  <meta name="robots" content="index, follow">
+  <meta name="language" content="English">
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="VC-Inspector">
+  <meta property="og:title" content="VC-Inspector: Advancing Reference-free Evaluation of Video Captions with Factual Analysis">
+  <meta property="og:description" content="A lightweight, open-source LMM for reference-free video caption evaluation with factual grounding. Achieves SOTA correlation with human judgments.">
+  <meta property="og:url" content="https://dipta007.github.io/VC-Inspector">
+  <meta property="og:image" content="https://dipta007.github.io/VC-Inspector/static/images/social_preview.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="VC-Inspector - Video Caption Evaluation">
+  <meta property="article:published_time" content="2025-01-01T00:00:00.000Z">
+  <meta property="article:author" content="Shubhashis Roy Dipta">
+  <meta property="article:section" content="Research">
+  <meta property="article:tag" content="Video Captioning">
+  <meta property="article:tag" content="Caption Evaluation">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@iamdipta007">
+  <meta name="twitter:creator" content="@iamdipta007">
+  <meta name="twitter:title" content="VC-Inspector: Reference-free Video Caption Evaluation">
+  <meta name="twitter:description" content="Lightweight LMM for factual video caption evaluation. SOTA on VATEX-Eval, Flickr8K. Outperforms GPT-4o-based methods.">
+  <meta property="twitter:image" content="https://dipta007.github.io/VC-Inspector/static/images/social_preview.png">
+  <meta name="twitter:image:alt" content="VC-Inspector - Video Caption Evaluation">
+
+  <!-- Academic/Research Specific -->
+  <meta name="citation_title" content="VC-Inspector: Advancing Reference-free Evaluation of Video Captions with Factual Analysis">
+  <meta name="citation_author" content="Dipta, Shubhashis Roy">
+  <meta name="citation_author" content="Wu, Tz-Ying">
+  <meta name="citation_author" content="Tripathi, Subarna">
+  <meta name="citation_publication_date" content="2025">
+  <meta name="citation_conference_title" content="arXiv">
+  <meta name="citation_pdf_url" content="https://arxiv.org/pdf/2509.16538">
+  <meta name="citation_arxiv_id" content="2509.16538">
+
+  <!-- Additional SEO -->
+  <meta name="theme-color" content="#3b82f6">
+  <meta name="msapplication-TileColor" content="#3b82f6">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+
+  <!-- Preconnect for performance -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://ajax.googleapis.com">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
+
+  <title>VC-Inspector: Reference-free Video Caption Evaluation with Factual Analysis</title>
+
+  <!-- Favicon and App Icons -->
+  <link rel="icon" type="image/x-icon" href="static/images/favicon.ico">
+  <link rel="apple-touch-icon" href="static/images/favicon.ico">
+
+  <!-- Critical CSS - Load synchronously -->
+  <link rel="stylesheet" href="static/css/bulma.min.css">
+  <link rel="stylesheet" href="static/css/index.css">
+
+  <!-- Non-critical CSS - Load asynchronously -->
+  <link rel="preload" href="static/css/bulma-carousel.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <link rel="preload" href="static/css/bulma-slider.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <link rel="preload" href="static/css/fontawesome.all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <link rel="preload" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+
+  <!-- Fallback for browsers that don't support preload -->
+  <noscript>
+    <link rel="stylesheet" href="static/css/bulma-carousel.min.css">
+    <link rel="stylesheet" href="static/css/bulma-slider.min.css">
+    <link rel="stylesheet" href="static/css/fontawesome.all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  </noscript>
+
+  <!-- Fonts - Optimized loading -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Defer non-critical JavaScript -->
+  <script defer src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="static/js/fontawesome.all.min.js"></script>
+  <script defer src="static/js/bulma-carousel.min.js"></script>
+  <script defer src="static/js/bulma-slider.min.js"></script>
+  <script defer src="static/js/index.js"></script>
+
+  <!-- Structured Data for Academic Papers -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ScholarlyArticle",
+    "headline": "VC-Inspector: Advancing Reference-free Evaluation of Video Captions with Factual Analysis",
+    "description": "We propose VC-Inspector, a lightweight, open-source large multimodal model for reference-free evaluation of video captions with a focus on factual accuracy.",
+    "author": [
+      {
+        "@type": "Person",
+        "name": "Shubhashis Roy Dipta",
+        "affiliation": {
+          "@type": "Organization",
+          "name": "University of Maryland, Baltimore County"
+        }
+      },
+      {
+        "@type": "Person",
+        "name": "Tz-Ying Wu",
+        "affiliation": {
+          "@type": "Organization",
+          "name": "Intel"
+        }
+      },
+      {
+        "@type": "Person",
+        "name": "Subarna Tripathi",
+        "affiliation": {
+          "@type": "Organization",
+          "name": "Intel"
+        }
+      }
+    ],
+    "datePublished": "2025",
+    "publisher": {
+      "@type": "Organization",
+      "name": "Association for Computational Linguistics"
+    },
+    "url": "https://dipta007.github.io/VC-Inspector",
+    "keywords": ["Video Captioning", "Caption Evaluation", "Reference-free", "Factual Analysis", "Vision-Language Models"],
+    "isAccessibleForFree": true
+  }
+  </script>
+
+  <style>
+    .highlight-box {
+      background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+      color: white;
+      padding: 1.5rem;
+      border-radius: 12px;
+      margin: 1rem 0;
+    }
+    .stat-card {
+      background: #f8fafc;
+      border-radius: 12px;
+      padding: 1.5rem;
+      text-align: center;
+      border: 1px solid #e2e8f0;
+      height: 100%;
+    }
+    .stat-number {
+      font-size: 2.5rem;
+      font-weight: 800;
+      color: #3b82f6;
+    }
+    .stat-label {
+      color: #64748b;
+      font-size: 0.9rem;
+    }
+    @media screen and (max-width: 768px) {
+      .stat-card {
+        padding: 1rem;
+        margin-bottom: 0.5rem;
+      }
+      .stat-number {
+        font-size: 1.8rem;
+      }
+      .stat-label {
+        font-size: 0.8rem;
+      }
+    }
+    .table-responsive {
+      width: 100%;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+    .comparison-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1rem 0;
+      min-width: 500px;
+    }
+    .comparison-table th, .comparison-table td {
+      padding: 0.75rem 1rem;
+      text-align: left;
+      border-bottom: 1px solid #e2e8f0;
+      white-space: nowrap;
+    }
+    .comparison-table th {
+      background: #f1f5f9;
+      font-weight: 600;
+    }
+    .comparison-table tr:hover {
+      background: #f8fafc;
+    }
+    .comparison-table a {
+      color: #2563eb;
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+    .comparison-table a:hover {
+      color: #1d4ed8;
+      text-decoration: underline;
+    }
+    @media screen and (max-width: 768px) {
+      .comparison-table {
+        min-width: 400px;
+        font-size: 0.85rem;
+      }
+      .comparison-table th, .comparison-table td {
+        padding: 0.5rem 0.75rem;
+      }
+    }
+    .model-badge {
+      display: inline-block;
+      padding: 0.25rem 0.75rem;
+      border-radius: 9999px;
+      font-size: 0.8rem;
+      font-weight: 500;
+    }
+    .badge-blue {
+      background: #dbeafe;
+      color: #1e40af;
+    }
+    .badge-green {
+      background: #d1fae5;
+      color: #065f46;
+    }
+    .badge-orange {
+      background: #ffedd5;
+      color: #c2410c;
+    }
+    .method-step {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      margin: 1rem 0;
+    }
+    .step-number {
+      background: #3b82f6;
+      color: white;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+    .example-box {
+      background: #1e293b;
+      color: #e2e8f0;
+      padding: 1.5rem;
+      border-radius: 12px;
+      font-family: monospace;
+      overflow-x: auto;
+    }
+    .example-caption {
+      color: #fbbf24;
+      margin-bottom: 0.5rem;
+    }
+    .example-score {
+      color: #34d399;
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+    .example-explanation {
+      color: #f87171;
+      margin-top: 0.5rem;
+    }
+    .pipeline-box {
+      background: #f8fafc;
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin: 1rem 0;
+    }
+    .pipeline-arrow {
+      color: #3b82f6;
+      font-size: 1.5rem;
+      text-align: center;
+      margin: 0.5rem 0;
+    }
+    .video-frame-grid {
+      display: grid;
+      grid-template-columns: repeat(8, 1fr);
+      gap: 4px;
+      margin: 1rem 0;
+    }
+    .video-frame {
+      background: #cbd5e1;
+      aspect-ratio: 1;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Scroll to Top Button -->
+  <button class="scroll-to-top" onclick="scrollToTop()" title="Scroll to top" aria-label="Scroll to top">
+    <i class="fas fa-chevron-up"></i>
+  </button>
+
+  <main id="main-content">
+  <section class="hero">
+    <div class="hero-body">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered">
+          <div class="column has-text-centered">
+            <h1 class="title is-1 publication-title">
+              VC-Inspector: Advancing Reference-free Evaluation of Video Captions with Factual Analysis
+            </h1>
+            <div class="is-size-5 publication-authors">
+              <span class="author-block">
+                <a href="https://roydipta.com" target="_blank">Shubhashis Roy Dipta</a><sup>1*</sup>,
+              </span>
+              <span class="author-block">
+                <a href="https://scholar.google.com/citations?user=tqQRJUUAAAAJ&hl=zh-TW" target="_blank">Tz-Ying Wu</a><sup>2*</sup>,
+              </span>
+              <span class="author-block">
+                <a href="https://scholar.google.com/citations?user=HPfNU94AAAAJ&hl=en" target="_blank">Subarna Tripathi</a><sup>2</sup>
+              </span>
+            </div>
+
+            <div class="is-size-5 publication-authors">
+              <span class="author-block"><sup>1</sup>University of Maryland, Baltimore County</span>
+              <span class="author-block"><sup>2</sup>Intel</span>
+              <span class="author-block"><sup>*</sup>Equal Contribution</span>
+              <br>
+              <!-- <span class="author-block" style="font-weight: 600; color: #3b82f6;">ACL 2025</span> -->
+            </div>
+
+            <div class="column has-text-centered">
+              <div class="publication-links">
+                <span class="link-block">
+                  <a href="https://arxiv.org/abs/2509.16538" target="_blank"
+                  class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                    <i class="fas fa-file-pdf"></i>
+                  </span>
+                  <span>Paper</span>
+                </a>
+              </span>
+
+              <span class="link-block">
+                <a href="https://github.com/dipta007/VC-Inspector" target="_blank"
+                class="external-link button is-normal is-rounded is-dark">
+                <span class="icon">
+                  <i class="fab fa-github"></i>
+                </span>
+                <span>Code</span>
+              </a>
+            </span>
+
+            <span class="link-block">
+              <a href="https://huggingface.co/collections/dipta007/vc-inspector" target="_blank"
+              class="external-link button is-normal is-rounded is-dark">
+              <span>🤗 Models</span>
+            </a>
+          </span>
+
+          <span class="link-block">
+            <a href="https://huggingface.co/datasets/dipta007/ActivityNet-FG-It" target="_blank"
+            class="external-link button is-normal is-rounded is-dark">
+            <span class="icon">
+              <i class="fas fa-database"></i>
+            </span>
+            <span>Dataset</span>
+          </a>
+        </span>
+
+        <span class="link-block">
+          <a href="https://arxiv.org/abs/2509.16538" target="_blank"
+          class="external-link button is-normal is-rounded is-dark">
+          <span class="icon">
+            <i class="ai ai-arxiv"></i>
+          </span>
+          <span>arXiv</span>
+        </a>
+      </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- Key Results -->
+<section class="hero is-small">
+  <div class="hero-body">
+    <h2 class="title is-3 has-text-centered">Key Results</h2>
+    <div class="container is-max-desktop">
+      <div class="columns is-multiline is-centered is-mobile">
+        <div class="column is-6-mobile is-6-tablet is-3-desktop">
+          <div class="stat-card">
+            <div class="stat-number">42.6</div>
+            <div class="stat-label">Kendall's τ on VATEX-Eval</div>
+          </div>
+        </div>
+        <div class="column is-6-mobile is-6-tablet is-3-desktop">
+          <div class="stat-card">
+            <div class="stat-number">63.4</div>
+            <div class="stat-label">Kendall's τ on Flickr8K-Expert</div>
+          </div>
+        </div>
+        <div class="column is-6-mobile is-6-tablet is-3-desktop">
+          <div class="stat-card">
+            <div class="stat-number">3B/7B</div>
+            <div class="stat-label">Lightweight Models</div>
+          </div>
+        </div>
+        <div class="column is-6-mobile is-6-tablet is-3-desktop">
+          <div class="stat-card">
+            <div class="stat-number">0.30s</div>
+            <div class="stat-label">Per Video Inference</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Teaser Figure -->
+<section class="hero is-small">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered is-variable is-4">
+        <div class="column is-6">
+          <div class="has-text-centered">
+            <img src="static/images/teaser1.png" alt="VC-Inspector Overview: Comparison with existing metrics" style="width: 100%; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);">
+          </div>
+        </div>
+        <div class="column is-6">
+          <div class="has-text-centered">
+            <img src="static/images/teaser2.png" alt="VC-Inspector: Factually grounded evaluation with explanations" style="width: 100%; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);">
+          </div>
+        </div>
+      </div>
+      <h2 class="subtitle has-text-centered" style="margin-top: 1rem;">
+        <strong>Overview:</strong> Existing reference-free metrics like EMScore often fail to detect factual inaccuracies and lack consistent scoring. VC-Inspector addresses these limitations by providing factually grounded, interpretable evaluations with quality scores (1-5) and natural language explanations.
+      </h2>
+    </div>
+  </div>
+</section>
+
+<!-- Paper abstract -->
+<section class="section hero is-light">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+            We propose <strong>VC-Inspector</strong>, a lightweight, open-source large multimodal model (LMM) for <em>reference-free</em> evaluation of video captions, with a focus on <strong>factual accuracy</strong>. Unlike existing metrics that suffer from limited context handling, weak factuality assessment, or reliance on proprietary services, VC-Inspector offers a reproducible, fact-aware alternative that aligns closely with human judgments.
+          </p>
+          <p>
+            To enable robust training and interpretable evaluation, we introduce a systematic approach for generating captions with <strong>controllable errors</strong>, paired with graded quality scores and explanatory annotations. Our data generation pipeline uses LLMs to systematically alter objects and actions in ground-truth captions, creating the <strong>ActivityNet-FG-It</strong> dataset with 44K instruction-tuning samples.
+          </p>
+          <p>
+            Experiments show that VC-Inspector achieves <strong>state-of-the-art correlation with human judgments</strong>, generalizing across diverse domains (e.g., VATEX-Eval, Flickr8K-Expert, and Flickr8K-CF benchmarks) and revealing the potential for caption improvement. Our 7B model outperforms GPT-4o-based G-VEval while being fully open-source and reproducible.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Problem & Motivation -->
+<section class="section">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered">The Problem: Existing Metrics Fail on Factual Errors</h2>
+    <div class="content">
+      <p class="has-text-centered" style="margin-bottom: 2rem;">
+        Current reference-free metrics like EMScore produce similar scores for factually correct and incorrect captions, failing to detect object and action errors.
+      </p>
+
+      <div class="columns">
+        <div class="column">
+          <div class="example-box">
+            <div style="color: #94a3b8; margin-bottom: 0.5rem;">Video: Man playing violin in a field</div>
+            <hr style="border-color: #475569; margin: 0.5rem 0;">
+            <div class="example-caption">Caption 1: "A man is playing guitar in a field"</div>
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <div>
+                <span style="color: #94a3b8;">EMScore:</span> <span>0.2449</span>
+              </div>
+              <div>
+                <span style="color: #94a3b8;">VC-Inspector:</span> <span class="example-score">4</span>
+              </div>
+            </div>
+            <div class="example-explanation">Incorrect Object (guitar → violin)</div>
+          </div>
+          <p class="has-text-centered" style="margin-top: 0.5rem; color: #ef4444;">
+            <i class="fas fa-times-circle"></i> EMScore: Can't distinguish factual errors
+          </p>
+        </div>
+        <div class="column">
+          <div class="example-box">
+            <div style="color: #94a3b8; margin-bottom: 0.5rem;">Video: Man playing violin in a field</div>
+            <hr style="border-color: #475569; margin: 0.5rem 0;">
+            <div class="example-caption">Caption 2: "A man is playing guitar for her girlfriend"</div>
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <div>
+                <span style="color: #94a3b8;">EMScore:</span> <span>0.2423</span>
+              </div>
+              <div>
+                <span style="color: #94a3b8;">VC-Inspector:</span> <span class="example-score">2</span>
+              </div>
+            </div>
+            <div class="example-explanation">Incorrect Objects (guitar, girlfriend)</div>
+          </div>
+          <p class="has-text-centered" style="margin-top: 0.5rem; color: #10b981;">
+            <i class="fas fa-check-circle"></i> VC-Inspector: Detects multiple errors
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Method -->
+<section class="section hero is-light">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered">Our Approach</h2>
+
+    <div class="columns" style="margin-top: 2rem;">
+      <div class="column is-6">
+        <h3 class="title is-4">1. Synthetic Data Generation</h3>
+        <p>We create captions with controllable factual errors:</p>
+
+        <div class="pipeline-box">
+          <div style="text-align: center; font-weight: 600;">Ground Truth Caption</div>
+          <div style="text-align: center; color: #64748b; font-size: 0.9rem;">"A man is holding a jump rope and talking"</div>
+          <div class="pipeline-arrow">↓</div>
+          <div style="display: flex; justify-content: space-around;">
+            <div style="text-align: center;">
+              <div style="font-weight: 500;">Objects</div>
+              <div style="font-size: 0.85rem; color: #64748b;">man, jump rope</div>
+            </div>
+            <div style="text-align: center;">
+              <div style="font-weight: 500;">Actions</div>
+              <div style="font-size: 0.85rem; color: #64748b;">holding, talking</div>
+            </div>
+          </div>
+          <div class="pipeline-arrow">↓</div>
+          <div style="text-align: center; font-weight: 600;">Substitute with LLM</div>
+          <div class="pipeline-arrow">↓</div>
+          <div style="text-align: center; font-weight: 600; color: #dc2626;">Pseudo Caption</div>
+          <div style="text-align: center; color: #64748b; font-size: 0.9rem;">"A woman is releasing a hula hoop and talking"</div>
+          <div style="text-align: center; margin-top: 0.5rem;">
+            <span class="model-badge badge-blue">Score: 2</span>
+          </div>
+        </div>
+
+        <p style="margin-top: 1rem;"><strong>Scoring formula:</strong></p>
+        <div style="background: #1e293b; color: #e2e8f0; padding: 0.75rem; border-radius: 8px; font-family: monospace; text-align: center;">
+          score = 1 - (changed elements / total elements)
+        </div>
+      </div>
+
+      <div class="column is-6">
+        <h3 class="title is-4">2. VC-Inspector Training</h3>
+        <p>Fine-tune Qwen2.5-VL with LoRA for factual grounding:</p>
+
+        <div class="method-step">
+          <div class="step-number">1</div>
+          <div>
+            <strong>Freeze Vision Encoder:</strong> Preserve generalization capability of video features
+          </div>
+        </div>
+
+        <div class="method-step">
+          <div class="step-number">2</div>
+          <div>
+            <strong>LoRA Fine-tuning:</strong> Efficient adaptation with rank=32, alpha=32
+          </div>
+        </div>
+
+        <div class="method-step">
+          <div class="step-number">3</div>
+          <div>
+            <strong>Joint Training:</strong> Predict both quality scores AND explanations for better factual grounding
+          </div>
+        </div>
+
+        <h4 class="title is-5" style="margin-top: 1.5rem;">Output Format</h4>
+        <div class="example-box" style="font-size: 0.9rem;">
+          <div style="color: #94a3b8;">[Input] Video + Caption</div>
+          <hr style="border-color: #475569; margin: 0.5rem 0;">
+          <div style="color: #34d399;">[Output Line 1] Score: 3</div>
+          <div style="color: #f87171;">[Output Line 2] The caption does not accurately capture the video content. For example, the objects (girl, shoes) are incorrect.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Method Figure -->
+    <div style="margin-top: 2rem;">
+      <div class="columns is-centered is-variable is-4">
+        <div class="column is-6">
+          <div class="has-text-centered">
+            <img src="static/images/method1.png" alt="VC-Inspector data generation pipeline" style="width: 100%; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);">
+            <p style="margin-top: 0.5rem; color: #64748b; font-size: 0.9rem;">
+              Data generation pipeline creates synthetic captions with controlled factual errors.
+            </p>
+          </div>
+        </div>
+        <div class="column is-6">
+          <div class="has-text-centered">
+            <img src="static/images/method2.png" alt="VC-Inspector training pipeline" style="width: 100%; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);">
+            <p style="margin-top: 0.5rem; color: #64748b; font-size: 0.9rem;">
+              VC-Inspector is trained to predict quality scores with explanations.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Results -->
+<section class="section">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered">Results</h2>
+
+    <div class="content">
+      <h3 class="title is-4">VATEX-Eval: Human Correlation (Reference-free)</h3>
+      <p>VC-Inspector outperforms all existing reference-free metrics, including GPT-4o-based G-VEval:</p>
+
+      <div class="table-responsive">
+        <table class="comparison-table">
+          <tr>
+            <th>Metric</th>
+            <th>Type</th>
+            <th>Kendall's τ<sub>b</sub> ↑</th>
+            <th>Spearman's ρ ↑</th>
+          </tr>
+          <tr>
+            <td>EMScore</td>
+            <td><span class="model-badge badge-orange">Image-based</span></td>
+            <td>22.88</td>
+            <td>29.79</td>
+          </tr>
+          <tr>
+            <td>CLIPScore</td>
+            <td><span class="model-badge badge-orange">Image-based</span></td>
+            <td>22.33</td>
+            <td>29.09</td>
+          </tr>
+          <tr>
+            <td>ViCLIPScore</td>
+            <td><span class="model-badge badge-blue">Video-based</span></td>
+            <td>30.92</td>
+            <td>39.86</td>
+          </tr>
+          <tr>
+            <td>Qwen2.5-VL-3B</td>
+            <td><span class="model-badge badge-blue">Video-based</span></td>
+            <td>31.29</td>
+            <td>36.43</td>
+          </tr>
+          <tr>
+            <td>Qwen2.5-VL-7B</td>
+            <td><span class="model-badge badge-blue">Video-based</span></td>
+            <td>34.70</td>
+            <td>39.40</td>
+          </tr>
+          <tr>
+            <td>G-VEval (GPT-4o)</td>
+            <td><span class="model-badge badge-green">Proprietary</span></td>
+            <td>39.40</td>
+            <td>-</td>
+          </tr>
+          <tr style="background: #dbeafe;">
+            <td><strong>VC-Inspector-3B</strong> <span class="model-badge badge-blue">Ours</span></td>
+            <td><span class="model-badge badge-blue">Video-based</span></td>
+            <td>37.99</td>
+            <td>42.45</td>
+          </tr>
+          <tr style="background: #bfdbfe;">
+            <td><strong>VC-Inspector-7B</strong> <span class="model-badge badge-blue">Ours</span></td>
+            <td><span class="model-badge badge-blue">Video-based</span></td>
+            <td><strong>42.58</strong></td>
+            <td><strong>45.99</strong></td>
+          </tr>
+        </table>
+      </div>
+
+      <h3 class="title is-4" style="margin-top: 2rem;">Cross-domain: Image Caption Benchmarks</h3>
+      <p>VC-Inspector generalizes to image captions, outperforming even reference-based metrics:</p>
+
+      <div class="table-responsive">
+        <table class="comparison-table">
+          <tr>
+            <th>Metric</th>
+            <th>Setting</th>
+            <th>Flickr8K-Expert (τ<sub>b</sub>)</th>
+            <th>Flickr8K-CF (τ<sub>b</sub>)</th>
+          </tr>
+          <tr>
+            <td>SPICE</td>
+            <td><span class="model-badge badge-orange">Reference-based</span></td>
+            <td>51.70</td>
+            <td>24.40</td>
+          </tr>
+          <tr>
+            <td>CLIPScore</td>
+            <td><span class="model-badge badge-orange">Reference-based</span></td>
+            <td>52.60</td>
+            <td>36.40</td>
+          </tr>
+          <tr>
+            <td>PAC-S</td>
+            <td><span class="model-badge badge-orange">Reference-based</span></td>
+            <td>55.50</td>
+            <td>37.60</td>
+          </tr>
+          <tr>
+            <td>CLIPScore</td>
+            <td><span class="model-badge badge-blue">Reference-free</span></td>
+            <td>51.10</td>
+            <td>34.40</td>
+          </tr>
+          <tr>
+            <td>PAC-S</td>
+            <td><span class="model-badge badge-blue">Reference-free</span></td>
+            <td>53.90</td>
+            <td>36.00</td>
+          </tr>
+          <tr style="background: #dbeafe;">
+            <td><strong>VC-Inspector-3B</strong></td>
+            <td><span class="model-badge badge-blue">Reference-free</span></td>
+            <td>59.86</td>
+            <td>39.00</td>
+          </tr>
+          <tr style="background: #bfdbfe;">
+            <td><strong>VC-Inspector-7B</strong></td>
+            <td><span class="model-badge badge-blue">Reference-free</span></td>
+            <td><strong>63.43</strong></td>
+            <td><strong>45.97</strong></td>
+          </tr>
+        </table>
+      </div>
+
+      <h3 class="title is-4" style="margin-top: 2rem;">Ablation: Impact of Explanations</h3>
+      <p>Training with explanations improves factual grounding:</p>
+
+      <div class="table-responsive">
+        <table class="comparison-table">
+          <tr>
+            <th>Configuration</th>
+            <th>Kendall's τ<sub>b</sub></th>
+            <th>Spearman's ρ</th>
+          </tr>
+          <tr>
+            <td>VC-Inspector-3B (without explanations)</td>
+            <td>34.29</td>
+            <td>38.18</td>
+          </tr>
+          <tr style="background: #d1fae5;">
+            <td><strong>VC-Inspector-3B (with explanations)</strong></td>
+            <td><strong>37.99</strong></td>
+            <td><strong>42.45</strong></td>
+          </tr>
+        </table>
+      </div>
+      <p style="margin-top: 0.5rem; color: #64748b;">
+        <i class="fas fa-info-circle"></i> Explanation supervision provides +3.7 τ<sub>b</sub> improvement, demonstrating the value of interpretable outputs.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- Models & Dataset -->
+<section class="section hero is-light">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered">Models & Dataset</h2>
+
+    <div class="columns" style="margin-top: 2rem;">
+      <div class="column is-6">
+        <h3 class="title is-4">Pre-trained Models</h3>
+        <p>All models available on HuggingFace:</p>
+        <div class="table-responsive">
+          <table class="comparison-table">
+            <tr>
+              <th>Model</th>
+              <th>Params</th>
+              <th>VATEX τ<sub>b</sub></th>
+            </tr>
+            <tr>
+              <td><a href="https://huggingface.co/dipta007/VCInspector-7B" target="_blank">VC-Inspector-7B</a></td>
+              <td>7B</td>
+              <td><strong>42.58</strong></td>
+            </tr>
+            <tr>
+              <td><a href="https://huggingface.co/dipta007/VCInspector-3B" target="_blank">VC-Inspector-3B</a></td>
+              <td>3B</td>
+              <td>37.99</td>
+            </tr>
+          </table>
+        </div>
+
+        <h4 class="title is-5" style="margin-top: 1.5rem;">Training Configuration</h4>
+        <div class="table-responsive">
+          <table class="comparison-table">
+            <tr>
+              <th>Hyperparameter</th>
+              <th>Value</th>
+            </tr>
+            <tr>
+              <td>Base Model</td>
+              <td>Qwen2.5-VL</td>
+            </tr>
+            <tr>
+              <td>Training Method</td>
+              <td>LoRA (r=32, α=32)</td>
+            </tr>
+            <tr>
+              <td>Epochs</td>
+              <td>1</td>
+            </tr>
+            <tr>
+              <td>Batch Size</td>
+              <td>128</td>
+            </tr>
+            <tr>
+              <td>Learning Rate</td>
+              <td>1e-4</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="column is-6">
+        <h3 class="title is-4">ActivityNet-FG-It Dataset</h3>
+        <p>Synthetic dataset for instruction tuning:</p>
+        <div class="highlight-box">
+          <div style="display: flex; justify-content: space-between; margin-bottom: 1rem;">
+            <div style="text-align: center;">
+              <div style="font-size: 1.5rem; font-weight: 700;">44K</div>
+              <div style="font-size: 0.8rem; opacity: 0.9;">Total Samples</div>
+            </div>
+            <div style="text-align: center;">
+              <div style="font-size: 1.5rem; font-weight: 700;">5</div>
+              <div style="font-size: 0.8rem; opacity: 0.9;">Score Levels</div>
+            </div>
+            <div style="text-align: center;">
+              <div style="font-size: 1.5rem; font-weight: 700;">Balanced</div>
+              <div style="font-size: 0.8rem; opacity: 0.9;">Distribution</div>
+            </div>
+          </div>
+          <a href="https://huggingface.co/datasets/dipta007/ActivityNet-FG-It" target="_blank" style="display: block; background: white; color: #3b82f6; padding: 0.75rem; border-radius: 8px; text-align: center; font-weight: 600; text-decoration: none;">
+            <i class="fas fa-download"></i> Download Dataset
+          </a>
+        </div>
+
+        <h4 class="title is-5" style="margin-top: 1.5rem;">Data Generation</h4>
+        <ul>
+          <li><strong>Source:</strong> ActivityNet Captions (train split)</li>
+          <li><strong>Generator:</strong> Llama-3.3-70B-Instruct</li>
+          <li><strong>Augmentation:</strong> Object & action substitution</li>
+          <li><strong>Scoring:</strong> Embedding similarity + factual accuracy</li>
+          <li><strong>Explanations:</strong> Identifies incorrect objects/actions</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Qualitative Examples -->
+<section class="section">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered">Qualitative Examples</h2>
+
+    <div class="columns" style="margin-top: 2rem;">
+      <div class="column">
+        <div class="example-box">
+          <div style="color: #94a3b8; margin-bottom: 0.5rem;">VATEX-Eval Example</div>
+          <hr style="border-color: #475569; margin: 0.5rem 0;">
+          <div class="example-caption">[Caption] A young man does the long jump at a track and field event.</div>
+          <div style="margin-top: 0.5rem;">
+            <span style="color: #94a3b8;">Predicted Score:</span> <span class="example-score">5</span>
+          </div>
+          <div style="color: #34d399; margin-top: 0.5rem;">[Explanation] The caption is helpful, relevant, accurate, and informative to the video content.</div>
+        </div>
+      </div>
+      <div class="column">
+        <div class="example-box">
+          <div style="color: #94a3b8; margin-bottom: 0.5rem;">VATEX-Eval Example</div>
+          <hr style="border-color: #475569; margin: 0.5rem 0;">
+          <div class="example-caption">[Caption] Then she does several dance moves with the sword.</div>
+          <div style="margin-top: 0.5rem;">
+            <span style="color: #94a3b8;">Predicted Score:</span> <span class="example-score">4</span>
+          </div>
+          <div class="example-explanation">[Explanation] The caption does not accurately capture the video content. For example, the objects (sword) are incorrect.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="columns">
+      <div class="column">
+        <div class="example-box">
+          <div style="color: #94a3b8; margin-bottom: 0.5rem;">ActivityNet-FG-Eval Example</div>
+          <hr style="border-color: #475569; margin: 0.5rem 0;">
+          <div class="example-caption">[Caption] A little girl is sleeping on a chair.</div>
+          <div style="margin-top: 0.5rem;">
+            <span style="color: #94a3b8;">Predicted Score:</span> <span class="example-score">4</span>
+          </div>
+          <div class="example-explanation">[Explanation] The caption does not accurately capture the video content. For example, the actions (sleeping) are incorrect.</div>
+          <div style="color: #64748b; font-size: 0.85rem; margin-top: 0.5rem;">(Ground truth: girl is sitting, not sleeping)</div>
+        </div>
+      </div>
+      <div class="column">
+        <div class="example-box">
+          <div style="color: #94a3b8; margin-bottom: 0.5rem;">ActivityNet-FG-Eval Example</div>
+          <hr style="border-color: #475569; margin: 0.5rem 0;">
+          <div class="example-caption">[Caption] A woman is sleeping on a chair.</div>
+          <div style="margin-top: 0.5rem;">
+            <span style="color: #94a3b8;">Predicted Score:</span> <span class="example-score">2</span>
+          </div>
+          <div class="example-explanation">[Explanation] The caption does not accurately capture the video content. For example, the objects (woman) and actions (sleeping) are incorrect.</div>
+          <div style="color: #64748b; font-size: 0.85rem; margin-top: 0.5rem;">(Ground truth: little girl sitting)</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!--BibTex citation -->
+<section class="section" id="BibTeX">
+  <div class="container is-max-desktop content">
+    <div class="bibtex-header">
+      <h2 class="title">BibTeX</h2>
+      <button class="copy-bibtex-btn" onclick="copyBibTeX()" title="Copy BibTeX to clipboard">
+        <i class="fas fa-copy"></i>
+        <span class="copy-text">Copy</span>
+      </button>
+    </div>
+    <pre id="bibtex-code"><code>@misc{dipta2025advancingreferencefreeevaluationvideo,
+      title={Advancing Reference-free Evaluation of Video Captions with Factual Analysis},
+      author={Shubhashis Roy Dipta and Tz-Ying Wu and Subarna Tripathi},
+      year={2025},
+      eprint={2509.16538},
+      archivePrefix={arXiv},
+      primaryClass={cs.CV},
+      url={https://arxiv.org/abs/2509.16538},
+}</code></pre>
+  </div>
+</section>
+<!--End BibTex citation -->
+
+
+<footer class="footer">
+<div class="container">
+  <div class="columns is-centered">
+    <div class="column is-8">
+      <div class="content">
+        <p>
+          This page was built using the <a href="https://github.com/eliahuhorwitz/Academic-project-page-template" target="_blank">Academic Project Page Template</a>.
+          <br>
+          This website is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/" target="_blank">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+</footer>
+
+</main>
+
+<script>
+function copyBibTeX() {
+  const bibtexCode = document.getElementById('bibtex-code').innerText;
+  navigator.clipboard.writeText(bibtexCode).then(function() {
+    const copyBtn = document.querySelector('.copy-bibtex-btn');
+    const copyText = copyBtn.querySelector('.copy-text');
+    copyText.textContent = 'Copied!';
+    setTimeout(function() {
+      copyText.textContent = 'Copy';
+    }, 2000);
+  });
+}
+
+function scrollToTop() {
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+
+// Show/hide scroll to top button
+window.onscroll = function() {
+  const scrollBtn = document.querySelector('.scroll-to-top');
+  if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+    scrollBtn.style.display = 'block';
+  } else {
+    scrollBtn.style.display = 'none';
+  }
+};
+</script>
+
+<!-- Default Statcounter code for VC-Inspector
+http://dipta007.github.io/VC-Inspector -->
+<script type="text/javascript">
+var sc_project=13197330;
+var sc_invisible=1;
+var sc_security="19242348";
+</script>
+<script type="text/javascript"
+src="https://www.statcounter.com/counter/counter.js"
+async></script>
+<noscript><div class="statcounter"><a title="free web stats"
+href="https://statcounter.com/" target="_blank"><img
+class="statcounter"
+src="https://c.statcounter.com/13197330/0/19242348/1/"
+alt="free web stats"
+referrerPolicy="no-referrer-when-downgrade"></a></div></noscript>
+<!-- End of Statcounter Code -->
+
+</body>
+</html>
